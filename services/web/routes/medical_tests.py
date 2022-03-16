@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, Response
 from flask_login import login_required
 
 from main import db
@@ -21,7 +21,7 @@ def get_medical_tests():
         Category.id.label('category_id')
     ).all()
 
-    return {'data': [row._asdict() for row in all_analyses]}
+    return Response({'data': [row._asdict() for row in all_analyses]}, status=200)
 
 
 @medical_tests.route("/<int:category_id>", methods=['GET'])
@@ -30,11 +30,4 @@ def get_medical_tests():
 def get_medical_tests_by_category(category_id):
     all_analyses = db.session.query(MedicalTest).filter(MedicalTest.category_id==category_id).all()
 
-    return {'data': [medical_test_schema.dump(row) for row in all_analyses]}
-
-
-@medical_tests.route("/", methods=['POST'])
-@login_required
-@has_permission('customer')
-def make_an_order():
-    pass
+    return Response({'data': [medical_test_schema.dump(row) for row in all_analyses]}, status=200)

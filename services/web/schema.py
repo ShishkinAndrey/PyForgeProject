@@ -1,4 +1,4 @@
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 
 from main import db
 from models import MedicalTest, User, MedicalTestOrder
@@ -32,6 +32,10 @@ class MedicalTestOrderSchema(SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
         sqla_session = db.session
+
+    test = auto_field()
+    customer = auto_field()
+    access = auto_field()
 
 
 medical_test_order_schema = MedicalTestOrderSchema()

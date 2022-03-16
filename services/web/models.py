@@ -44,12 +44,12 @@ class MedicalTest(db.Model):
     category_id = Column(
         Integer,
         ForeignKey('categories.id'),
-        nullable=True
+        nullable=False
     )
 
 
-class OrderStatus(enum.Enum):
-    in_progress = "in_progress"
+class OrderStatus:
+    created = "created"
     ready = "ready"
 
 
@@ -57,15 +57,15 @@ class MedicalTestOrder(db.Model):
     __tablename__ = "medical_tests_order"
 
     id = Column(Integer, primary_key=True)
-    analyse_id = Column(
+    test = Column(
         Integer,
         ForeignKey('medical_tests.id'),
-        nullable=True
+        nullable=False
     )
-    customer_id = Column(
+    customer = Column(
         Integer,
         ForeignKey('user.id'),
-        nullable=True
+        nullable=False
     )
     access = Column(
         Integer,
@@ -73,6 +73,6 @@ class MedicalTestOrder(db.Model):
         nullable=True
     )
     status = Column(
-        db.Enum(OrderStatus),
-        default=OrderStatus.in_progress,
+        String(20),
+        default=OrderStatus.created,
     )
