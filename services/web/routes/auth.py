@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, request, Response
+from flask import Blueprint, request, Response
 from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -11,7 +11,7 @@ auth_routes = Blueprint('auth_routes', __name__)
 
 
 @auth_routes.route('/signup', methods=['POST'])
-def signup_post():
+def signup():
     data = {
         'email': request.json['email'],
         'password': generate_password_hash(request.json['password'], method='sha256'),
@@ -32,7 +32,7 @@ def signup_post():
 
 
 @auth_routes.route('/login', methods=['POST'])
-def login_post():
+def login():
     email = request.json['email']
     password = request.json['password']
 

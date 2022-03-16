@@ -1,4 +1,4 @@
-from flask import Blueprint, request, Response, jsonify
+from flask import Blueprint, request, Response, make_response
 from flask_login import login_required, current_user
 
 from main import db
@@ -16,7 +16,7 @@ orders = Blueprint('orders', __name__)
 def get_available_orders():
     all_orders = db.session.query(MedicalTestOrder).filter(MedicalTestOrder.access == current_user.id).all()
 
-    return Response({'data': [medical_test_order_schema.dump(row) for row in all_orders]}, status=200)
+    return make_response({'data': [medical_test_order_schema.dump(row) for row in all_orders]}, 200)
 
 
 @orders.route("/<int:order_id>", methods=['GET'])
@@ -27,8 +27,9 @@ def get_available_order(order_id):
         MedicalTestOrder.id == order_id,
         MedicalTestOrder.access == current_user.id
     ).first()
-
-    return Response(medical_test_order_schema.dump(order), status=200)
+    if not order:
+        return Response('Not found', status=404)
+    return make_response(medical_test_order_schema.dump(order), 200)
 
 
 @orders.route("/", methods=['POST'])

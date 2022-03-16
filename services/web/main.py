@@ -14,9 +14,8 @@ def create_app():
 
     db.init_app(app)
 
-    from routes import auth, common, medical_tests, orders
+    from routes import auth, medical_tests, orders
     app.register_blueprint(auth.auth_routes)
-    app.register_blueprint(common.common_routes)
     app.register_blueprint(medical_tests.medical_tests, url_prefix='/medical_tests')
     app.register_blueprint(orders.orders, url_prefix='/orders')
 
@@ -32,4 +31,3 @@ def create_app():
         return User.query.get(user_id)
 
     return app
-

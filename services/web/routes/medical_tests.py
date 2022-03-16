@@ -1,4 +1,4 @@
-from flask import Blueprint, Response
+from flask import Blueprint, Response, make_response
 from flask_login import login_required
 
 from main import db
@@ -21,13 +21,14 @@ def get_medical_tests():
         Category.id.label('category_id')
     ).all()
 
-    return Response({'data': [row._asdict() for row in all_analyses]}, status=200)
+    return make_response({'data': [row._asdict() for row in all_analyses]}, 200)
 
 
 @medical_tests.route("/<int:category_id>", methods=['GET'])
 @login_required
 @has_permission('customer')
 def get_medical_tests_by_category(category_id):
-    all_analyses = db.session.query(MedicalTest).filter(MedicalTest.category_id==category_id).all()
-
-    return Response({'data': [medical_test_schema.dump(row) for row in all_analyses]}, status=200)
+    tests_by_category = db.session.query(MedicalTest).filter(MedicalTest.category_id == category_id).all()
+    if not tests_by_category:
+        return Response('Not found', status=404)
+    return make_response({'data': [medical_test_schema.dump(row) for row in tests_by_category]}, 200)

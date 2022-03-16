@@ -1,5 +1,3 @@
-import enum
-
 from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 
