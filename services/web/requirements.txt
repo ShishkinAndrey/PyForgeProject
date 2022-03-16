@@ -1,0 +1,6 @@
+Flask
+sqlalchemy==1.4.31
+Flask-SQLAlchemy==2.5.1
+psycopg2-binary==2.8.6
+gunicorn==20.1.0
+flask-login==0.5.0
