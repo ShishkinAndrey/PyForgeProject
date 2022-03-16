@@ -55,3 +55,17 @@ def make_an_order():
     db.session.commit()
 
     return Response('Order is created', status=200)
+
+
+@orders.route("/<int:order_id>/access", methods=['PATCH'])
+@login_required
+@has_permission('customer')
+def add_access(order_id):
+    order = db.session.query(MedicalTestOrder).filter(MedicalTestOrder.id == order_id).first()
+    if not order:
+        return Response('Not found', status=404)
+
+    order.access = request.json['access']
+    db.session.commit()
+
+    return Response('Access for test is added', status=200)
