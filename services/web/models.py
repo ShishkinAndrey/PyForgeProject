@@ -23,7 +23,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100))
     role = Column(
         Integer,
-        ForeignKey('roles.id', ondelete='CASCADE'),
+        ForeignKey('roles.id'),
         nullable=True,
         default=1
     )
@@ -36,14 +36,14 @@ class Category(db.Model):
     name = Column(String(120), nullable=False)
 
 
-class Analyses(db.Model):
-    __tablename__ = "analyses"
+class MedicalTest(db.Model):
+    __tablename__ = "medical_tests"
 
     id = Column(Integer, primary_key=True)
     name = Column(String(120), nullable=False)
     category_id = Column(
         Integer,
-        ForeignKey('categories.id', ondelete='CASCADE'),
+        ForeignKey('categories.id'),
         nullable=True
     )
 
@@ -53,23 +53,23 @@ class OrderStatus(enum.Enum):
     ready = "ready"
 
 
-class CustomerAnalyses(db.Model):
-    __tablename__ = "customer_analyses"
+class MedicalTestOrder(db.Model):
+    __tablename__ = "medical_tests_order"
 
     id = Column(Integer, primary_key=True)
     analyse_id = Column(
         Integer,
-        ForeignKey('analyses.id', ondelete='CASCADE'),
+        ForeignKey('medical_tests.id'),
         nullable=True
     )
     customer_id = Column(
         Integer,
-        ForeignKey('user.id', ondelete='CASCADE'),
+        ForeignKey('user.id'),
         nullable=True
     )
     access = Column(
         Integer,
-        ForeignKey('user.id', ondelete='CASCADE'),
+        ForeignKey('user.id'),
         nullable=True
     )
     status = Column(

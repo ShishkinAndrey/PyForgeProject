@@ -14,9 +14,10 @@ def create_app():
 
     db.init_app(app)
 
-    from routes import auth, common
+    from routes import auth, common, medical_tests
     app.register_blueprint(auth.auth_routes)
     app.register_blueprint(common.common_routes)
+    app.register_blueprint(medical_tests.medical_tests, url_prefix='/medical_tests')
 
     app.secret_key = os.urandom(10)
 

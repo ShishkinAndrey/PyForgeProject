@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from main import db
 from models import User
+from schema import user_schema
 
 
 auth_routes = Blueprint('auth_routes', __name__)
@@ -11,22 +12,19 @@ auth_routes = Blueprint('auth_routes', __name__)
 
 @auth_routes.route('/signup', methods=['POST'])
 def signup_post():
-    email = request.json['email']
-    password = request.json['password']
-    first_name = request.json['first_name']
-    last_name = request.json['last_name']
+    data = {
+        'email': request.json['email'],
+        'password': generate_password_hash(request.json['password'], method='sha256'),
+        'first_name': request.json['first_name'],
+        'last_name': request.json['last_name'],
+    }
+    new_user = user_schema.load(data)
 
     user = User.query.filter_by(email=request.json.get('email')).first()
 
     if user:
         return Response("User already exists", status=400)
 
-    new_user = User(
-        email=email,
-        first_name=first_name,
-        last_name=last_name,
-        password=generate_password_hash(password, method='sha256'),
-    )
     db.session.add(new_user)
     db.session.commit()
 

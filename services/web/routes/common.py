@@ -12,6 +12,5 @@ common_routes = Blueprint('common', __name__)
 @login_required
 @has_permission('customer')
 def hello_world():
-    heroes = db.session.query(User).first()
     return "Hello"
 
