@@ -12,7 +12,7 @@ def has_permission(role):
         @wraps(func)
         def role_validation(*args, **kwargs):
             current_user_role = db.session.query(Role).filter(Role.id == current_user.role).first().name
-            if role != current_user_role:
+            if current_user_role not in role:
                 return Response('Permissions denied', status=403)
             else:
                 return func(*args, **kwargs)
