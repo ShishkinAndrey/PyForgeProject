@@ -1,10 +1,14 @@
-from flask import Blueprint, request, Response, make_response
+import os
+
+from flask import Blueprint, request, Response, make_response, send_from_directory, render_template
 from flask_login import login_required, current_user
 
+from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 from main import db
-from models import MedicalTest, Category, OrderStatus, User, Role, MedicalTestOrder
+from models import OrderStatus, User, Role, MedicalTestOrder
 from schema import medical_test_order_schema
 from utils import has_permission
+from werkzeug.utils import secure_filename
 
 
 orders = Blueprint('orders', __name__)
@@ -12,7 +16,7 @@ orders = Blueprint('orders', __name__)
 
 @orders.route("/", methods=['GET'])
 @login_required
-@has_permission('doctor')
+@has_permission(('doctor',))
 def get_available_orders():
     all_orders = db.session.query(MedicalTestOrder).filter(MedicalTestOrder.access == current_user.id).all()
 
@@ -21,7 +25,7 @@ def get_available_orders():
 
 @orders.route("/<int:order_id>", methods=['GET'])
 @login_required
-@has_permission('doctor')
+@has_permission(('doctor',))
 def get_available_order(order_id):
     order = db.session.query(MedicalTestOrder).filter(
         MedicalTestOrder.id == order_id,
@@ -34,7 +38,7 @@ def get_available_order(order_id):
 
 @orders.route("/", methods=['POST'])
 @login_required
-@has_permission('customer')
+@has_permission(('customer',))
 def make_an_order():
     if request.json.get('access'):
         access = db.session.query(User).join(Role).filter(
@@ -59,7 +63,7 @@ def make_an_order():
 
 @orders.route("/<int:order_id>/access", methods=['PATCH'])
 @login_required
-@has_permission('customer')
+@has_permission(('customer',))
 def add_access(order_id):
     order = db.session.query(MedicalTestOrder).filter(MedicalTestOrder.id == order_id).first()
     if not order:
@@ -69,3 +73,37 @@ def add_access(order_id):
     db.session.commit()
 
     return Response('Access for test is added', status=200)
+
+
+@orders.route("/<int:order_id>/result", methods=['GET', 'POST'])
+@login_required
+@has_permission(('assistant',))
+def add_result(order_id):
+    if request.method == 'POST':
+        file = request.files.get('file')
+        if not file or file.filename == '':
+            return Response('Bad request', status=400)
+        order = db.session.query(MedicalTestOrder).filter(MedicalTestOrder.id == order_id).first()
+        if not order:
+            return Response('Not found', status=404)
+        if file and allowed_file(file.filename):
+            order = db.session.query(MedicalTestOrder).filter(MedicalTestOrder.id == order_id).first()
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            order.result = filename
+            order.status = OrderStatus.ready
+            db.session.commit()
+            return Response('Result is added', status=200)
+    return render_template('add_file.html')
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@orders.route('/result/<name>', methods=['GET'])
+@login_required
+@has_permission(('customer', 'doctor'))
+def get_file(name):
+    return send_from_directory(UPLOAD_FOLDER, name, as_attachment=True)

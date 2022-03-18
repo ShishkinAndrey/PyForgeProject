@@ -2,6 +2,9 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+UPLOAD_FOLDER = os.path.join(basedir, 'media')
+ALLOWED_EXTENSIONS = ['txt', 'pdf']
+
 
 class Config(object):
     SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:super@localhost/pyforge'
@@ -12,6 +15,7 @@ class Config(object):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
+    UPLOAD_FOLDER = UPLOAD_FOLDER
 
 
 class ProductionConfig(Config):
