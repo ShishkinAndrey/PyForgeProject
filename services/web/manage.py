@@ -25,7 +25,7 @@ def add_roles():
         name="doctor",
     ))
     db.session.add(Role(
-        name="asistant",
+        name="assistant",
     ))
     db.session.commit()
 

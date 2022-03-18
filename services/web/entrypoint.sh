@@ -15,6 +15,8 @@ if [ "$FLASK_ENV" = "development" ]
 then
     echo "Creating the database tables..."
     python manage.py create_db
+    python manage.py add_roles
+    python manage.py add_default_data
     echo "Tables created"
 fi
 
