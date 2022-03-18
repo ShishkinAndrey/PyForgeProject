@@ -74,3 +74,4 @@ class MedicalTestOrder(db.Model):
         String(20),
         default=OrderStatus.created,
     )
+    result = Column(String, nullable=True)
