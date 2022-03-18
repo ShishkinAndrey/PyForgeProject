@@ -3,11 +3,11 @@ import os
 from flask import Blueprint, request, Response, make_response, send_from_directory, render_template
 from flask_login import login_required, current_user
 
-from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
+from config import UPLOAD_FOLDER
 from main import db
 from models import OrderStatus, User, Role, MedicalTestOrder
 from schema import medical_test_order_schema
-from utils import has_permission
+from utils import has_permission, allowed_file
 from werkzeug.utils import secure_filename
 
 
@@ -95,11 +95,6 @@ def add_result(order_id):
             db.session.commit()
             return Response('Result is added', status=200)
     return render_template('add_file.html')
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @orders.route('/result/<name>', methods=['GET'])
