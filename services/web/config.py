@@ -7,7 +7,7 @@ ALLOWED_EXTENSIONS = ['txt', 'pdf']
 
 
 class Config(object):
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:super@localhost/pyforge'
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = False
 

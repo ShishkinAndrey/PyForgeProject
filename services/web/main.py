@@ -10,7 +10,7 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__, template_folder='static/templates')
 
-    app.config.from_object('config.DevelopmentConfig')
+    app.config.from_object(os.getenv("FLASK_APP_CONFIG"))
 
     db.init_app(app)
 

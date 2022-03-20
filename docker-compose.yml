@@ -5,11 +5,14 @@ services:
     build: ./services/web
     command: python -m flask run --host=0.0.0.0
     volumes:
-      - ./services/web/:/src/app/
+      - ./services/web/:/src/web_app/
     ports:
       - 5000:5000
     env_file:
-      - .env.dev
+      - ./.env.dev
+    environment:
+      SQL_HOST: db
+      SQL_PORT: 5432
     depends_on:
       - db
   db:
@@ -20,6 +23,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=super
       - POSTGRES_DB=pyforge
+    ports:
+      - "54320:5432"
 
 
 volumes:

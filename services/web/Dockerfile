@@ -12,6 +12,6 @@ RUN apt-get update && apt-get install -y netcat
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY . /src/web_app/
 
-ENTRYPOINT ["/src/app/entrypoint.sh"]
+ENTRYPOINT ["/src/web_app/entrypoint.sh"]
