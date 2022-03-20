@@ -18,6 +18,12 @@ class DevelopmentConfig(Config):
     UPLOAD_FOLDER = UPLOAD_FOLDER
 
 
+class TestingConfig(Config):
+    TESTING = True
+    DEBUG = True
+    UPLOAD_FOLDER = UPLOAD_FOLDER
+
+
 class ProductionConfig(Config):
     DEVELOPMENT = False
     DEBUG = False
