@@ -32,9 +32,7 @@ def app():
 
 @pytest.fixture()
 def client(app):
-    testing_client = app.test_client()
-
-    yield testing_client
+    yield app.test_client()
 
 
 @pytest.fixture
