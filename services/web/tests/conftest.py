@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 
 from config import TestingConfig
 from main import create_app, db
-from models import Role, User, Category, MedicalTest
+from models import Role, User, Category, MedicalTest, MedicalTestOrder
 
 
 @pytest.fixture()
@@ -122,5 +122,29 @@ def medical_tests():
     db.session.add(MedicalTest(
         name="r",
         category_id=3
+    ))
+    db.session.commit()
+
+
+@pytest.fixture
+def medical_test_order(medical_tests, customer, doctor):
+    medical_test = MedicalTest.query.first()
+    test_customer = User.query.filter(User.role == 1).first()
+    test_access = User.query.filter(User.role == 2).first()
+    db.session.add(MedicalTestOrder(
+        test=medical_test.id,
+        customer=test_customer.id,
+        access=test_access.id,
+    ))
+    db.session.commit()
+
+
+@pytest.fixture
+def medical_test_order_without_access(medical_tests, customer):
+    medical_test = MedicalTest.query.first()
+    test_customer = User.query.filter(User.role == 1).first()
+    db.session.add(MedicalTestOrder(
+        test=medical_test.id,
+        customer=test_customer.id,
     ))
     db.session.commit()
