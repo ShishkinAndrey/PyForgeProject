@@ -31,31 +31,54 @@ def test_signup(client):
     assert user.last_name == "surname"
 
 
-def test_signup_user_already_exists(client, user):
+@pytest.mark.parametrize('request_data', [
+    {
+        "email": "test_email_customer",
+        "password": "test_password",
+        "first_name": "name",
+        "last_name": "surname"
+    },
+    {
+        "email": "test_email_doctor",
+        "password": "test_password",
+        "first_name": "name",
+        "last_name": "surname"
+    },
+    {
+        "email": "test_email_assistant",
+        "password": "test_password",
+        "first_name": "name",
+        "last_name": "surname"
+    },
+])
+def test_signup_user_already_exists(client, customer, doctor, assistant, request_data):
     response = client.post(
         '/signup',
-        data=json.dumps(
-            {
-                "email": "test_email",
-                "password": "test_password",
-                "first_name": "name",
-                "last_name": "surname"
-            }
-        ),
+        data=json.dumps(request_data),
         content_type='application/json'
     )
     assert response.status_code == 400
     assert response.data == b"User already exists"
 
 
-def test_login(client, user):
+@pytest.mark.parametrize('request_data', [
+    {
+        "email": "test_email_customer",
+        "password": "test_password",
+    },
+    {
+        "email": "test_email_doctor",
+        "password": "test_password",
+    },
+    {
+        "email": "test_email_assistant",
+        "password": "test_password",
+    },
+])
+def test_login(client, customer, doctor, assistant, request_data):
     response = client.post(
         '/login',
-        data=json.dumps({
-                "email": "test_email",
-                "password": "test_password",
-            }
-        ),
+        data=json.dumps(request_data),
         content_type='application/json'
     )
 
@@ -63,8 +86,8 @@ def test_login(client, user):
     assert response.data == b"Successfully logged in"
 
 
-@pytest.mark.parametrize("email, password", [('test_email2', 'test_password'), ('test_email', 'test_password2')])
-def test_login(client, user, email, password):
+@pytest.mark.parametrize("email, password", [('wrong_email', 'test_password'), ('test_email_customer', 'test_password2')])
+def test_login_error(client, customer, email, password):
     response = client.post(
         '/login',
         data=json.dumps({
@@ -79,8 +102,8 @@ def test_login(client, user, email, password):
     assert response.data == b"Incorrect email or password"
 
 
-@force_login()
-def test_logout(client, user):
+@force_login('customer')
+def test_logout(client, customer):
     response = client.get(
         '/logout',
     )

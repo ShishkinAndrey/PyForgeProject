@@ -33,7 +33,7 @@ def app():
 @pytest.fixture
 def customer():
     db.session.add(User(
-        email="test_email1",
+        email="test_email_customer",
         password=generate_password_hash("test_password", method='sha256'),
         first_name="name",
         last_name="surname",
@@ -45,7 +45,7 @@ def customer():
 @pytest.fixture
 def doctor():
     db.session.add(User(
-        email="test_email2",
+        email="test_email_doctor",
         password=generate_password_hash("test_password", method='sha256'),
         first_name="name",
         last_name="surname",
@@ -57,7 +57,7 @@ def doctor():
 @pytest.fixture
 def assistant():
     db.session.add(User(
-        email="test_email3",
+        email="test_email_assistant",
         password=generate_password_hash("test_password", method='sha256'),
         first_name="name",
         last_name="surname",
@@ -67,7 +67,7 @@ def assistant():
 
 
 @pytest.fixture
-def client(app, customer, assistant, doctor):
+def client(app):
     yield app.test_client()
 
 
