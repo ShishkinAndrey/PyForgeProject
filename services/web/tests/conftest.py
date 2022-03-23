@@ -1,8 +1,12 @@
-import pytest, os
+import functools
+
+from flask.testing import FlaskClient
+import pytest
+from werkzeug.security import generate_password_hash
 
 from config import TestingConfig
 from main import create_app, db
-from models import Role
+from models import Role, User
 
 
 @pytest.fixture()
@@ -30,4 +34,33 @@ def app():
 def client(app):
     testing_client = app.test_client()
 
-    yield testing_client  # this is where the testing happens!
+    yield testing_client
+
+
+@pytest.fixture
+def user():
+    db.session.add(User(
+        email="test_email",
+        password=generate_password_hash("test_password", method='sha256'),
+        first_name="name",
+        last_name="surname"
+    ))
+    db.session.commit()
+
+
+def force_login():
+    def inner(f):
+        @functools.wraps(f)
+        def wrapper(*args, **kwargs):
+            for key, val in kwargs.items():
+                if isinstance(val, FlaskClient):
+                    with val:
+                        with val.session_transaction() as sess:
+                            user = User.query.first()
+                            sess['_user_id'] = user.id
+                        return f(*args, **kwargs)
+            return f(*args, **kwargs)
+
+        return wrapper
+
+    return inner
