@@ -19,6 +19,7 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
+    SQLALCHEMY_DATABASE_URI = os.getenv("TEST_DATABASE_URL")
     TESTING = True
     DEBUG = True
     UPLOAD_FOLDER = UPLOAD_FOLDER

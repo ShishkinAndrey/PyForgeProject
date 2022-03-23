@@ -19,6 +19,7 @@ services:
     image: postgres:13-alpine3.15
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=super
