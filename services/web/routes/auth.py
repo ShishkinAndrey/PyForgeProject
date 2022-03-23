@@ -28,7 +28,7 @@ def signup():
     db.session.add(new_user)
     db.session.commit()
 
-    return Response("Successfully signed in", status=200)
+    return Response("Successfully sign up", status=200)
 
 
 @auth_routes.route('/login', methods=['POST'])
