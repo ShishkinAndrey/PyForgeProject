@@ -14,11 +14,11 @@ def test_signup(client, role):
         '/signup',
         data=json.dumps(
             {
-                "email": "test_email",
-                "password": "test_password",
-                "first_name": "name",
-                "last_name": "surname",
-                "role": role
+                'email': 'test_email',
+                'password': 'test_password',
+                'first_name': 'name',
+                'last_name': 'surname',
+                'role': role
             }
         ),
         content_type='application/json'
@@ -27,33 +27,33 @@ def test_signup(client, role):
     assert response.data == b"Successfully sign up"
 
     user = db.session.query(User).first()
-    assert user.email == "test_email"
-    assert check_password_hash(user.password, "test_password")
-    assert user.first_name == "name"
-    assert user.last_name == "surname"
+    assert user.email == 'test_email'
+    assert check_password_hash(user.password, 'test_password')
+    assert user.first_name == 'name'
+    assert user.last_name == 'surname'
 
 
 @pytest.mark.parametrize('request_data', [
     {
-        "email": "test_email_customer",
-        "password": "test_password",
-        "first_name": "name",
-        "last_name": "surname",
-        "role": 1,
+        'email': 'test_email_customer',
+        'password': 'test_password',
+        'first_name': 'name',
+        'last_name': 'surname',
+        'role': 1,
     },
     {
-        "email": "test_email_doctor",
-        "password": "test_password",
-        "first_name": "name",
-        "last_name": "surname",
-        "role": 2,
+        'email': "test_email_doctor",
+        'password': 'test_password',
+        'first_name': 'name',
+        'last_name': 'surname',
+        'role': 2,
     },
     {
-        "email": "test_email_assistant",
-        "password": "test_password",
-        "first_name": "name",
-        "last_name": "surname",
-        "role": 3,
+        'email': 'test_email_assistant',
+        'password': 'test_password',
+        'first_name': 'name',
+        'last_name': 'surname',
+        'role': 3,
     },
 ])
 def test_signup_user_already_exists(client, customer, doctor, assistant, request_data):
@@ -68,16 +68,16 @@ def test_signup_user_already_exists(client, customer, doctor, assistant, request
 
 @pytest.mark.parametrize('request_data', [
     {
-        "email": "test_email_customer",
-        "password": "test_password",
+        'email': 'test_email_customer',
+        'password': 'test_password',
     },
     {
-        "email": "test_email_doctor",
-        "password": "test_password",
+        'email': 'test_email_doctor',
+        'password': 'test_password',
     },
     {
-        "email": "test_email_assistant",
-        "password": "test_password",
+        'email': 'test_email_assistant',
+        'password': 'test_password',
     },
 ])
 def test_login(client, customer, doctor, assistant, request_data):
@@ -91,7 +91,7 @@ def test_login(client, customer, doctor, assistant, request_data):
     assert response.data == b"Successfully logged in"
 
 
-@pytest.mark.parametrize("email, password", [
+@pytest.mark.parametrize('email, password', [
     ('wrong_email', 'test_password'),
     ('test_email_customer', 'test_password2')
 ])
@@ -99,8 +99,8 @@ def test_login_error(client, customer, email, password):
     response = client.post(
         '/login',
         data=json.dumps({
-                "email": email,
-                "password": password,
+                'email': email,
+                'password': password,
             }
         ),
         content_type='application/json'

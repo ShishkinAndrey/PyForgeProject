@@ -1,7 +1,7 @@
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
+from marshmallow_sqlalchemy import auto_field, SQLAlchemyAutoSchema
 
 from main import db
-from models import MedicalTest, User, MedicalTestOrder
+from models import MedicalTest, MedicalTestOrder, User
 
 
 class MedicalTestSchema(SQLAlchemyAutoSchema):

@@ -1,8 +1,8 @@
-from flask import Blueprint, Response, make_response
+from flask import Blueprint, make_response, Response
 from flask_login import login_required
 
 from main import db
-from models import MedicalTest, Category
+from models import Category, MedicalTest
 from schema import medical_test_schema
 from utils import has_permission
 
@@ -10,7 +10,7 @@ from utils import has_permission
 medical_tests = Blueprint('medical_tests', __name__)
 
 
-@medical_tests.route("/", methods=['GET'])
+@medical_tests.route('/', methods=['GET'])
 @login_required
 @has_permission(('customer',))
 def get_medical_tests():
@@ -24,7 +24,7 @@ def get_medical_tests():
     return make_response({'data': [row._asdict() for row in all_analyses]}, 200)
 
 
-@medical_tests.route("/<int:category_id>", methods=['GET'])
+@medical_tests.route('/<int:category_id>', methods=['GET'])
 @login_required
 @has_permission(('customer',))
 def get_medical_tests_by_category(category_id):

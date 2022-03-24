@@ -1,18 +1,18 @@
 from flask_login import UserMixin
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, ForeignKey, Integer, String
 
 from main import db
 
 
 class Role(db.Model):
-    __tablename__ = "roles"
+    __tablename__ = 'roles'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=False, unique=True)
 
 
 class User(UserMixin, db.Model):
-    __tablename__ = "user"
+    __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
     first_name = Column(String(120), nullable=False)
@@ -28,14 +28,14 @@ class User(UserMixin, db.Model):
 
 
 class Category(db.Model):
-    __tablename__ = "categories"
+    __tablename__ = 'categories'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(120), nullable=False)
 
 
 class MedicalTest(db.Model):
-    __tablename__ = "medical_tests"
+    __tablename__ = 'medical_tests'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(120), nullable=False)
@@ -47,12 +47,12 @@ class MedicalTest(db.Model):
 
 
 class OrderStatus:
-    created = "created"
-    ready = "ready"
+    created = 'created'
+    ready = 'ready'
 
 
 class MedicalTestOrder(db.Model):
-    __tablename__ = "medical_tests_order"
+    __tablename__ = 'medical_tests_order'
 
     id = Column(Integer, primary_key=True)
     test = Column(

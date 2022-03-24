@@ -1,20 +1,20 @@
 import os
 
-from flask import Blueprint, request, Response, make_response, send_from_directory, render_template
-from flask_login import login_required, current_user
+from flask import Blueprint, make_response, render_template, request, Response, send_from_directory
+from flask_login import current_user, login_required
+from werkzeug.utils import secure_filename
 
 from config import UPLOAD_FOLDER
 from main import db
-from models import OrderStatus, User, Role, MedicalTestOrder
+from models import MedicalTestOrder, OrderStatus, Role, User
 from schema import medical_test_order_schema
-from utils import has_permission, allowed_file
-from werkzeug.utils import secure_filename
+from utils import allowed_file, has_permission
 
 
 orders = Blueprint('orders', __name__)
 
 
-@orders.route("/", methods=['GET'])
+@orders.route('/', methods=['GET'])
 @login_required
 @has_permission(('doctor',))
 def get_available_orders():
@@ -23,7 +23,7 @@ def get_available_orders():
     return make_response({'data': [medical_test_order_schema.dump(row) for row in all_orders]}, 200)
 
 
-@orders.route("/<int:order_id>", methods=['GET'])
+@orders.route('/<int:order_id>', methods=['GET'])
 @login_required
 @has_permission(('doctor',))
 def get_available_order(order_id):
@@ -36,7 +36,7 @@ def get_available_order(order_id):
     return make_response(medical_test_order_schema.dump(order), 200)
 
 
-@orders.route("/", methods=['POST'])
+@orders.route('/', methods=['POST'])
 @login_required
 @has_permission(('customer',))
 def make_an_order():
@@ -61,7 +61,7 @@ def make_an_order():
     return Response('Order is created', status=200)
 
 
-@orders.route("/<int:order_id>/access", methods=['PATCH'])
+@orders.route('/<int:order_id>/access', methods=['PATCH'])
 @login_required
 @has_permission(('customer',))
 def add_access(order_id):
@@ -75,7 +75,7 @@ def add_access(order_id):
     return Response('Access for test is added', status=200)
 
 
-@orders.route("/<int:order_id>/result", methods=['GET', 'POST'])
+@orders.route('/<int:order_id>/result', methods=['GET', 'POST'])
 @login_required
 @has_permission(('assistant',))
 def add_result(order_id):

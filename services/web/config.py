@@ -7,7 +7,7 @@ ALLOWED_EXTENSIONS = ['txt', 'pdf']
 
 
 class Config(object):
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = False
 
@@ -19,7 +19,7 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.getenv("TEST_DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DATABASE_URL')
     TESTING = True
     DEBUG = True
     UPLOAD_FOLDER = UPLOAD_FOLDER
