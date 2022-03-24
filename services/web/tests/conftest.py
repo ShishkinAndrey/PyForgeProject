@@ -93,34 +93,46 @@ def force_login(role=None):
 @pytest.fixture
 def medical_tests():
     db.session.add(Category(
-        name="a",
+        name="Blood Disorder tests",
     ))
     db.session.add(Category(
-        name="b",
+        name="Diabetes tests",
     ))
     db.session.add(Category(
-        name="c",
+        name="Immunity Tests",
     ))
     db.session.commit()
 
     db.session.add(MedicalTest(
-        name="a",
+        name="Antibodies Screen Blood Test",
         category_id=1
     ))
     db.session.add(MedicalTest(
-        name="b",
+        name="D-Dimer Blood Test",
         category_id=1
     ))
     db.session.add(MedicalTest(
-        name="c",
-        category_id=3
+        name="Vitamin K1 Blood Test",
+        category_id=1
     ))
     db.session.add(MedicalTest(
-        name="f",
+        name="Insulin Fasting Blood Test",
         category_id=2
     ))
     db.session.add(MedicalTest(
-        name="r",
+        name="Glucose Serum Test",
+        category_id=2
+    ))
+    db.session.add(MedicalTest(
+        name="C-Peptide Serum Test",
+        category_id=2
+    ))
+    db.session.add(MedicalTest(
+        name="Immunity Blood Test Panel",
+        category_id=3
+    ))
+    db.session.add(MedicalTest(
+        name="Antibodies Screen Blood Test",
         category_id=3
     ))
     db.session.commit()
