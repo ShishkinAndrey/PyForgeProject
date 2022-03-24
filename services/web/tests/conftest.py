@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 
 from config import TestingConfig
 from main import create_app, db
-from models import Role, User, Category, MedicalTest, MedicalTestOrder
+from models import Category, MedicalTest, MedicalTestOrder, Role, User
 
 
 @pytest.fixture()
@@ -16,13 +16,13 @@ def app():
     with app.app_context():
         db.create_all()
         db.session.add(Role(
-            name="customer",
+            name='customer',
         ))
         db.session.add(Role(
-            name="doctor",
+            name='doctor',
         ))
         db.session.add(Role(
-            name="assistant",
+            name='assistant',
         ))
         db.session.commit()
         yield app
@@ -33,10 +33,10 @@ def app():
 @pytest.fixture
 def customer():
     db.session.add(User(
-        email="test_email_customer",
-        password=generate_password_hash("test_password", method='sha256'),
-        first_name="name",
-        last_name="surname",
+        email='test_email_customer',
+        password=generate_password_hash('test_password', method='sha256'),
+        first_name='name',
+        last_name='surname',
         role=1
     ))
     db.session.commit()
@@ -45,10 +45,10 @@ def customer():
 @pytest.fixture
 def doctor():
     db.session.add(User(
-        email="test_email_doctor",
-        password=generate_password_hash("test_password", method='sha256'),
-        first_name="name",
-        last_name="surname",
+        email='test_email_doctor',
+        password=generate_password_hash('test_password', method='sha256'),
+        first_name='name',
+        last_name='surname',
         role=2
     ))
     db.session.commit()
@@ -57,10 +57,10 @@ def doctor():
 @pytest.fixture
 def assistant():
     db.session.add(User(
-        email="test_email_assistant",
-        password=generate_password_hash("test_password", method='sha256'),
-        first_name="name",
-        last_name="surname",
+        email='test_email_assistant',
+        password=generate_password_hash('test_password', method='sha256'),
+        first_name='name',
+        last_name='surname',
         role=3
     ))
     db.session.commit()
@@ -93,46 +93,46 @@ def force_login(role=None):
 @pytest.fixture
 def medical_tests():
     db.session.add(Category(
-        name="Blood Disorder tests",
+        name='Blood Disorder tests',
     ))
     db.session.add(Category(
-        name="Diabetes tests",
+        name='Diabetes tests',
     ))
     db.session.add(Category(
-        name="Immunity Tests",
+        name='Immunity Tests',
     ))
     db.session.commit()
 
     db.session.add(MedicalTest(
-        name="Antibodies Screen Blood Test",
+        name='Antibodies Screen Blood Test',
         category_id=1
     ))
     db.session.add(MedicalTest(
-        name="D-Dimer Blood Test",
+        name='D-Dimer Blood Test',
         category_id=1
     ))
     db.session.add(MedicalTest(
-        name="Vitamin K1 Blood Test",
+        name='Vitamin K1 Blood Test',
         category_id=1
     ))
     db.session.add(MedicalTest(
-        name="Insulin Fasting Blood Test",
+        name='Insulin Fasting Blood Test',
         category_id=2
     ))
     db.session.add(MedicalTest(
-        name="Glucose Serum Test",
+        name='Glucose Serum Test',
         category_id=2
     ))
     db.session.add(MedicalTest(
-        name="C-Peptide Serum Test",
+        name='C-Peptide Serum Test',
         category_id=2
     ))
     db.session.add(MedicalTest(
-        name="Immunity Blood Test Panel",
+        name='Immunity Blood Test Panel',
         category_id=3
     ))
     db.session.add(MedicalTest(
-        name="Antibodies Screen Blood Test",
+        name='Antibodies Screen Blood Test',
         category_id=3
     ))
     db.session.commit()

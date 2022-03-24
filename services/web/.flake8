@@ -6,11 +6,10 @@ exclude =
     venv,
     media,
     static,
-    tests,
 max-line-length = 120
 inline-quotes = single
 multiline-quotes = double
 docstring-quotes = double
 import-order-style = google
 ban-relative-imports = true
-application-import-names = main, models, app, config, schema, utils
+application-import-names = main, models, app, config, schema, utils, tests

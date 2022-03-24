@@ -14,12 +14,12 @@ def test_get_orders_by_doctor(client, medical_test_order):
     assert response.status_code == 200
     assert response.json == {'data': [
         {
-            "id": 1,
-            "test": 1,
-            "customer": 1,
-            "access": 2,
-            "status": "created",
-            "result": None
+            'id': 1,
+            'test': 1,
+            'customer': 1,
+            'access': 2,
+            'status': 'created',
+            'result': None
         },
     ]}
 
@@ -50,12 +50,12 @@ def test_get_order_by_id_by_doctor(client, medical_test_order):
 
     assert response.status_code == 200
     assert response.json == {
-            "id": 1,
-            "test": 1,
-            "customer": 1,
-            "access": 2,
-            "status": "created",
-            "result": None
+            'id': 1,
+            'test': 1,
+            'customer': 1,
+            'access': 2,
+            'status': 'created',
+            'result': None
     }
 
 
@@ -92,14 +92,14 @@ def test_make_an_order(client, customer, doctor, medical_test_order):
         'orders/',
         data=json.dumps(
             {
-                "test": 1,
-                "access": 2,
+                'test': 1,
+                'access': 2,
             }
         ),
         content_type='application/json'
     )
     assert response.status_code == 200
-    assert response.data == b"Order is created"
+    assert response.data == b'Order is created'
 
 
 @force_login('customer')
@@ -108,8 +108,8 @@ def test_make_an_order_access_not_found(client, customer, doctor, medical_test_o
         'orders/',
         data=json.dumps(
             {
-                "test": 1,
-                "access": 3,
+                'test': 1,
+                'access': 3,
             }
         ),
         content_type='application/json'
@@ -123,27 +123,27 @@ def test_add_access(client, customer, doctor, medical_test_order_without_access)
         'orders/1/access',
         data=json.dumps(
             {
-                "access": 2,
+                'access': 2,
             }
         ),
         content_type='application/json'
     )
     assert response.status_code == 200
-    assert response.data == b"Access for test is added"
+    assert response.data == b'Access for test is added'
 
 
 @force_login('assistant')
 def test_add_result(client, assistant, medical_test_order):
     data = {}
-    data['file'] = (io.BytesIO(b"test_file"), 'test.pdf')
+    data['file'] = (io.BytesIO(b'test_file'), 'test.pdf')
     response = client.post(
         'orders/1/result',
         data=data,
         content_type='multipart/form-data'
         )
     assert response.status_code == 200
-    assert response.data == b"Result is added"
+    assert response.data == b'Result is added'
     order = MedicalTestOrder.query.filter(MedicalTestOrder.id == 1).first()
 
-    assert order.result == "test.pdf"
-    assert order.status == "ready"
+    assert order.result == 'test.pdf'
+    assert order.status == 'ready'

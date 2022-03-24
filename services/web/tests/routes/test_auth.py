@@ -24,7 +24,7 @@ def test_signup(client, role):
         content_type='application/json'
     )
     assert response.status_code == 200
-    assert response.data == b"Successfully sign up"
+    assert response.data == b'Successfully sign up'
 
     user = db.session.query(User).first()
     assert user.email == 'test_email'
@@ -42,7 +42,7 @@ def test_signup(client, role):
         'role': 1,
     },
     {
-        'email': "test_email_doctor",
+        'email': 'test_email_doctor',
         'password': 'test_password',
         'first_name': 'name',
         'last_name': 'surname',
@@ -63,7 +63,7 @@ def test_signup_user_already_exists(client, customer, doctor, assistant, request
         content_type='application/json'
     )
     assert response.status_code == 400
-    assert response.data == b"User already exists"
+    assert response.data == b'User already exists'
 
 
 @pytest.mark.parametrize('request_data', [
@@ -88,7 +88,7 @@ def test_login(client, customer, doctor, assistant, request_data):
     )
 
     assert response.status_code == 200
-    assert response.data == b"Successfully logged in"
+    assert response.data == b'Successfully logged in'
 
 
 @pytest.mark.parametrize('email, password', [
@@ -107,7 +107,7 @@ def test_login_error(client, customer, email, password):
     )
 
     assert response.status_code == 400
-    assert response.data == b"Incorrect email or password"
+    assert response.data == b'Incorrect email or password'
 
 
 @force_login('customer')
@@ -117,4 +117,4 @@ def test_logout(client, customer):
     )
 
     assert response.status_code == 200
-    assert response.data == b"Successfully logged out"
+    assert response.data == b'Successfully logged out'
