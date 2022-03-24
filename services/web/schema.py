@@ -22,7 +22,7 @@ class UserSchema(SQLAlchemyAutoSchema):
         load_instance = True
         sqla_session = db.session
 
-
+    role = auto_field()
 user_schema = UserSchema()
 
 

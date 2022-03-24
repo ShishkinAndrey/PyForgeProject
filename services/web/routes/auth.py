@@ -17,6 +17,7 @@ def signup():
         'password': generate_password_hash(request.json['password'], method='sha256'),
         'first_name': request.json['first_name'],
         'last_name': request.json['last_name'],
+        "role": request.json['role']
     }
     new_user = user_schema.load(data)
 
