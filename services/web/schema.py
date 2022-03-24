@@ -23,6 +23,8 @@ class UserSchema(SQLAlchemyAutoSchema):
         sqla_session = db.session
 
     role = auto_field()
+
+
 user_schema = UserSchema()
 
 

@@ -147,4 +147,3 @@ def test_add_result(client, assistant, medical_test_order):
 
     assert order.result == "test.pdf"
     assert order.status == "ready"
-

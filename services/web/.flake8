@@ -10,5 +10,5 @@ max-line-length = 120
 inline-quotes = single
 multiline-quotes = double
 docstring-quotes = double
-import-order-style = smarkets
+import-order-style = google
 ban-relative-imports = true

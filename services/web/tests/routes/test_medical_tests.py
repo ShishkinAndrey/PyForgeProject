@@ -70,7 +70,7 @@ def test_get_medical_tests_by_doctor(client, doctor, medical_tests):
 
 
 @force_login('assistant')
-def test_get_medical_tests_by_doctor(client, assistant, medical_tests):
+def test_get_medical_tests_by_assistant(client, assistant, medical_tests):
     response = client.get(
         'medical_tests/',
     )
@@ -120,7 +120,7 @@ def test_get_medical_tests_by_id_by_doctor(client, doctor, medical_tests):
 
 
 @force_login('assistant')
-def test_get_medical_tests_by_id_by_doctor(client, assistant, medical_tests):
+def test_get_medical_tests_by_id_by_assistant(client, assistant, medical_tests):
     response = client.get(
         'medical_tests/1',
     )

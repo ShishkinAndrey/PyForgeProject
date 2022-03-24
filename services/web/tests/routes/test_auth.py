@@ -91,7 +91,10 @@ def test_login(client, customer, doctor, assistant, request_data):
     assert response.data == b"Successfully logged in"
 
 
-@pytest.mark.parametrize("email, password", [('wrong_email', 'test_password'), ('test_email_customer', 'test_password2')])
+@pytest.mark.parametrize("email, password", [
+    ('wrong_email', 'test_password'),
+    ('test_email_customer', 'test_password2')
+])
 def test_login_error(client, customer, email, password):
     response = client.post(
         '/login',
