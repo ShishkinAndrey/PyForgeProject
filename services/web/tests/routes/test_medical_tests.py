@@ -10,34 +10,52 @@ def test_get_medical_tests_by_customer(client, customer, medical_tests):
     assert response.status_code == 200
     assert response.json == {'data': [
         {
-            "category": "a",
+            "category": "Blood Disorder tests",
             "category_id": 1,
-            "medical_test": "a",
+            "medical_test": "Antibodies Screen Blood Test",
             "medical_test_id": 1
         },
         {
-            "category": "a",
+            "category": "Blood Disorder tests",
             "category_id": 1,
-            "medical_test": "b",
+            "medical_test": "D-Dimer Blood Test",
             "medical_test_id": 2
         },
         {
-            "category": "c",
-            "category_id": 3,
-            "medical_test": "c",
+            "category": "Blood Disorder tests",
+            "category_id": 1,
+            "medical_test": "Vitamin K1 Blood Test",
             "medical_test_id": 3
         },
         {
-            "category": "b",
+            "category": "Diabetes tests",
             "category_id": 2,
-            "medical_test": "f",
+            "medical_test": "Insulin Fasting Blood Test",
             "medical_test_id": 4
         },
         {
-            "category": "c",
-            "category_id": 3,
-            "medical_test": "r",
+            "category": "Diabetes tests",
+            "category_id": 2,
+            "medical_test": "Glucose Serum Test",
             "medical_test_id": 5
+        },
+        {
+            "category": "Diabetes tests",
+            "category_id": 2,
+            "medical_test": "C-Peptide Serum Test",
+            "medical_test_id": 6
+        },
+        {
+            "category": "Immunity Tests",
+            "category_id": 3,
+            "medical_test": "Immunity Blood Test Panel",
+            "medical_test_id": 7
+        },
+        {
+            "category": "Immunity Tests",
+            "category_id": 3,
+            "medical_test": "Antibodies Screen Blood Test",
+            "medical_test_id": 8
         }
     ]}
 
@@ -69,12 +87,16 @@ def test_get_medical_tests_by_id(client, customer, medical_tests):
     assert response.status_code == 200
     assert response.json == {'data': [
         {
-            "name": "a",
+            "name": "Antibodies Screen Blood Test",
             "id": 1
         },
         {
-            "name": "b",
+            "name": "D-Dimer Blood Test",
             "id": 2
+        },
+        {
+            "name": "Vitamin K1 Blood Test",
+            "id": 3
         }]
     }
 
