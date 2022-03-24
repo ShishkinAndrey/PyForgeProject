@@ -8,7 +8,8 @@ from models import User
 from tests.conftest import force_login
 
 
-def test_signup(client):
+@pytest.mark.parametrize('role', [1, 2, 3])
+def test_signup(client, role):
     response = client.post(
         '/signup',
         data=json.dumps(
@@ -16,7 +17,8 @@ def test_signup(client):
                 "email": "test_email",
                 "password": "test_password",
                 "first_name": "name",
-                "last_name": "surname"
+                "last_name": "surname",
+                "role": role
             }
         ),
         content_type='application/json'
@@ -36,19 +38,22 @@ def test_signup(client):
         "email": "test_email_customer",
         "password": "test_password",
         "first_name": "name",
-        "last_name": "surname"
+        "last_name": "surname",
+        "role": 1,
     },
     {
         "email": "test_email_doctor",
         "password": "test_password",
         "first_name": "name",
-        "last_name": "surname"
+        "last_name": "surname",
+        "role": 2,
     },
     {
         "email": "test_email_assistant",
         "password": "test_password",
         "first_name": "name",
-        "last_name": "surname"
+        "last_name": "surname",
+        "role": 3,
     },
 ])
 def test_signup_user_already_exists(client, customer, doctor, assistant, request_data):
