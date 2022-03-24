@@ -1,0 +1,14 @@
+[flake8]
+exclude =
+    .git,
+    __pycache__,
+    env,
+    venv,
+    media,
+    static,
+max-line-length = 120
+inline-quotes = single
+multiline-quotes = double
+docstring-quotes = double
+import-order-style = smarkets
+ban-relative-imports = true
